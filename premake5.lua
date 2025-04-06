@@ -11,7 +11,15 @@ project "TestApp"
     language "C++"
     targetdir "build/bin/%{cfg.buildcfg}"
 
-    links {"TinyChernoLib"}
+    links { "TinyChernoLib" }
 
     files { "src/**" }
     includedirs { "lib/tiny-cherno-lib/src" }
+
+filter "configurations:Debug"
+    defines { "DEBUG" }
+    symbols "On"
+
+filter "configurations:Release"
+    defines { "NDEBUG" }
+    optimize "On"
