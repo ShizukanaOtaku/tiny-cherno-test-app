@@ -9,7 +9,7 @@ workspace "TestApp"
 project "TestApp"
     kind "ConsoleApp"
     language "C++"
-    targetdir "build/bin"
+    targetdir "build/bin/%{cfg.buildcfg}"
 
     links {"TinyChernoLib"}
 
