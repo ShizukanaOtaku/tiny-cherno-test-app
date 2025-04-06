@@ -1,7 +1,3 @@
-#include <iostream>
-#include <test_file.hpp>
+#include <tiny_cherno.hpp>
 
-int main() {
-    std::cout << "Starting a test app with TinyCherno...\n";
-    tiny_cherno::init();
-}
+int main() { tiny_cherno::init(); }
