@@ -16,10 +16,10 @@ project "TestApp"
     files { "src/**" }
     includedirs { "lib/tiny-cherno-lib/src" }
 
-filter "configurations:Debug"
-    defines { "DEBUG" }
-    symbols "On"
+    filter "configurations:Debug"
+        defines { "DEBUG" }
+        symbols "on"
 
-filter "configurations:Release"
-    defines { "NDEBUG" }
-    optimize "On"
+    filter "configurations:Release"
+        defines { "NDEBUG" }
+        optimize "on"
