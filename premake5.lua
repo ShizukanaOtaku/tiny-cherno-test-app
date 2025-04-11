@@ -11,7 +11,7 @@ project "TestApp"
     language "C++"
     targetdir "build/bin/%{cfg.buildcfg}"
 
-    links { "TinyChernoLib" }
+    links { "TinyChernoLib", "glfw3" }
 
     files { "src/**" }
     includedirs { "lib/tiny-cherno-lib/src" }
