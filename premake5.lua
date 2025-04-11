@@ -7,7 +7,7 @@ workspace "TestApp"
     include "lib/tiny-cherno-lib/Include.lua"
 
 project "TestApp"
-    kind "ConsoleApp"
+    kind "WindowedApp"
     language "C++"
     targetdir "build/bin/%{cfg.buildcfg}"
 
