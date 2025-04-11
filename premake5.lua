@@ -1,6 +1,8 @@
 workspace "TestApp"
     configurations { "Debug", "Release" }
     location "build"
+    architecture "x64"
+    cppdialect "C++20"
 
     include "lib/tiny-cherno-lib/Include.lua"
 
@@ -21,3 +23,6 @@ project "TestApp"
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "on"
+
+    filter "system:windows"
+        entrypoint "mainCRTStartup" -- Make sure that we use the main function instead of WinMain for cross-platform compatibility
