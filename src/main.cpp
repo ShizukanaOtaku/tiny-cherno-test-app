@@ -7,10 +7,12 @@
 #include <iostream>
 #include <memory>
 #include <tiny_cherno.hpp>
+#include <runtime/runtime.hpp>
 
 int main() {
     tiny_cherno::WindowParameters params =
         tiny_cherno::WindowParameters{"Test TinyCherno App", 800, 600, false};
+
     tiny_cherno::InitializationError error = tiny_cherno::init(params);
     if (error != tiny_cherno::InitializationError::NONE) {
         std::cerr << "Initializing the TinyCherno runtime failed with code " << error << '\n';
