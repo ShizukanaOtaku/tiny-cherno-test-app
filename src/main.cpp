@@ -44,6 +44,5 @@ int main() {
                 return true;
             });
 
-    scene.Update();
     tiny_cherno::run();
 }
