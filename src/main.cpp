@@ -9,6 +9,11 @@
 #include <tiny_cherno.hpp>
 #include <runtime/runtime.hpp>
 
+struct TestComponent {
+    int x;
+    bool funny;
+};
+
 int main() {
     tiny_cherno::WindowParameters params =
         tiny_cherno::WindowParameters{"Test TinyCherno App", 800, 600, false};
@@ -20,7 +25,16 @@ int main() {
     }
 
     tiny_cherno::Scene scene;
-    scene.entities.push_back(std::make_shared<tiny_cherno::Entity>());
+    auto entity = std::make_shared<tiny_cherno::Entity>();
+    scene.entities.push_back(entity);
+    TestComponent component = {234, true};
+    scene.componentRegistry.AttachComponent(*entity, component);
+    auto test = scene.componentRegistry.GetComponent<TestComponent>(*entity);
+    if (test.has_value()) {
+        std::cout << test->get().x << ' ' << test->get().funny << '\n';
+    } else {
+        std::cout << "Component not found!\n";
+    }
 
     tiny_cherno::TinyChernoRuntime::GetRuntime()
         ->eventDispatcher.RegisterListener(
