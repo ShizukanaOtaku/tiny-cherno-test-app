@@ -18,10 +18,10 @@ int main() {
     }
 
     tiny_cherno::Scene scene;
-    scene.Entities.push_back(std::make_shared<tiny_cherno::Entity>());
+    scene.entities.push_back(std::make_shared<tiny_cherno::Entity>());
 
     tiny_cherno::TinyChernoRuntime::GetRuntime()
-        ->event_dispatcher.RegisterListener(
+        ->eventDispatcher.RegisterListener(
             tiny_cherno::EventType::KeyEvent, [](tiny_cherno::Event &e) {
                 class tiny_cherno::KeyEvent keyEvent =
                     static_cast<class tiny_cherno::KeyEvent &>(e);
