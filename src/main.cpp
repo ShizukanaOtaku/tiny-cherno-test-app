@@ -36,7 +36,7 @@ int main() {
     tiny_cherno::Scene *scene = tiny_cherno::TinyChernoRuntime::GetRuntime()->CurrentScene();
     auto entity = std::make_shared<tiny_cherno::Entity>();
     scene->SpawnEntity(entity);
-    scene->componentRegistry.AttachComponent(*entity, TestComponent {123, false});
+    scene->componentRegistry.AttachComponent<TestComponent>(entity->Uuid);
     tiny_cherno::TinyChernoRuntime::GetRuntime()->systems.RegisterSystem<TestComponent>(std::make_shared<TestSystem>());
 
     tiny_cherno::TinyChernoRuntime::GetRuntime()
