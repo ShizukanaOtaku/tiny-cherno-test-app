@@ -1,6 +1,8 @@
+#include "component/component.hpp"
 #include "rendering/window.hpp"
 #include "entity/entity.hpp"
 #include "scene/scene.hpp"
+#include "util/uuid.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <event/key_event.hpp>
@@ -14,6 +16,13 @@ struct TestComponent {
     bool funny;
 };
 
+class TestSystem : public tiny_cherno::System<TestComponent> {
+    void ProcessComponent(const tiny_cherno::UUID &entityUuid, TestComponent &component) override {
+        std::cout << "Processing entity " << entityUuid.Value() << ", data: " << component.funny << ", " << component.x << '\n';
+        component.x++;
+    }
+};
+
 int main() {
     tiny_cherno::WindowParameters params =
         tiny_cherno::WindowParameters{"Test TinyCherno App", 800, 600, false};
@@ -24,17 +33,11 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    tiny_cherno::Scene scene;
+    tiny_cherno::Scene *scene = tiny_cherno::TinyChernoRuntime::GetRuntime()->CurrentScene();
     auto entity = std::make_shared<tiny_cherno::Entity>();
-    scene.entities.push_back(entity);
-    TestComponent component = {234, true};
-    scene.componentRegistry.AttachComponent(*entity, component);
-    auto test = scene.componentRegistry.GetComponent<TestComponent>(*entity);
-    if (test.has_value()) {
-        std::cout << test->get().x << ' ' << test->get().funny << '\n';
-    } else {
-        std::cout << "Component not found!\n";
-    }
+    scene->SpawnEntity(entity);
+    scene->componentRegistry.AttachComponent(*entity, TestComponent {123, false});
+    tiny_cherno::TinyChernoRuntime::GetRuntime()->CurrentScene()->componentRegistry.getRegistry().RegisterSystem<TestComponent>(std::make_shared<TestSystem>());
 
     tiny_cherno::TinyChernoRuntime::GetRuntime()
         ->eventDispatcher.RegisterListener(
