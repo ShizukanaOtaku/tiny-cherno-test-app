@@ -17,7 +17,6 @@ struct TestComponent {
 
 class TestSystem : public tiny_cherno::System<TestComponent> {
     void ProcessComponent(const tiny_cherno::UUID &entityUuid, TestComponent &component) override {
-        std::cout << "Processing entity " << entityUuid.Value() << ", data: " << component.funny << ", " << component.x << '\n';
         component.x++;
     }
 };
@@ -42,6 +41,7 @@ int main() {
             tiny_cherno::EventType::KeyEvent, [](tiny_cherno::Event &e) {
                 class tiny_cherno::KeyEvent keyEvent =
                     static_cast<class tiny_cherno::KeyEvent &>(e);
+                    std::cout << "Key " << keyEvent.key << " action: " << keyEvent.action << '\n';
                 return true;
             });
 
