@@ -1,8 +1,11 @@
 #include "component/component.hpp"
+#include "event/event.hpp"
+#include "event/render_event.hpp"
 #include "rendering/window.hpp"
 #include "entity/entity.hpp"
 #include "scene/scene.hpp"
 #include "util/uuid.hpp"
+#include <GL/gl.h>
 #include <cstdio>
 #include <cstdlib>
 #include <event/key_event.hpp>
@@ -17,7 +20,7 @@ struct TestComponent {
 
 class TestSystem : public tiny_cherno::System<TestComponent> {
     void ProcessComponent(const tiny_cherno::UUID &entityUuid, TestComponent &component) override {
-        component.x++;
+        std::cout << "Component value: " << component.x++ << '\n';
     }
 };
 
@@ -31,17 +34,25 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    tiny_cherno::Scene &scene = tiny_cherno::CurrentScene();
+    tiny_cherno::Scene *scene = tiny_cherno::CurrentScene();
     auto entity = std::make_shared<tiny_cherno::Entity>();
-    scene.SpawnEntity(entity);
-    scene.componentRegistry.AttachComponent<TestComponent>(entity->Uuid);
+    scene->SpawnEntity(entity);
+    scene->componentRegistry.AttachComponent<TestComponent>(entity->Uuid);
     tiny_cherno::Systems().RegisterSystem<TestComponent>(std::make_shared<TestSystem>());
 
     tiny_cherno::Events().RegisterListener(
-            tiny_cherno::EventType::KeyEvent, [](tiny_cherno::Event &e) {
-                class tiny_cherno::KeyEvent keyEvent =
-                    static_cast<class tiny_cherno::KeyEvent &>(e);
-                    std::cout << "Key " << keyEvent.key << " action: " << keyEvent.action << '\n';
+            tiny_cherno::EventType::KEY_EVENT, [](tiny_cherno::Event &e) {
+                tiny_cherno::KeyEvent keyEvent =
+                    static_cast<tiny_cherno::KeyEvent &>(e);
+
+                std::cout << "Key " << keyEvent.key << " action: " << keyEvent.action << '\n';
+                return true;
+            });
+
+    tiny_cherno::Events().RegisterListener(
+            tiny_cherno::EventType::RENDER_EVENT, [](tiny_cherno::Event &e) {
+                tiny_cherno::RenderEvent renderEvent = static_cast<tiny_cherno::RenderEvent &>(e);
+                std::cout << renderEvent.deltaTime << '\n';
                 return true;
             });
 
