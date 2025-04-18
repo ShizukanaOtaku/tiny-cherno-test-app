@@ -1,6 +1,7 @@
 #include "component/component.hpp"
 #include "event/event.hpp"
 #include "event/render_event.hpp"
+#include "rendering/mesh.hpp"
 #include "rendering/window.hpp"
 #include "entity/entity.hpp"
 #include "scene/scene.hpp"
@@ -53,6 +54,17 @@ int main() {
             tiny_cherno::EventType::RENDER_EVENT, [](tiny_cherno::Event &e) {
                 tiny_cherno::RenderEvent renderEvent = static_cast<tiny_cherno::RenderEvent &>(e);
                 std::cout << renderEvent.deltaTime << '\n';
+                return true;
+            });
+
+    tiny_cherno::Mesh triangle = tiny_cherno::GetWindow()->Context()->CreateMesh({
+            -1, -1, 0,
+             0, -1, 0,
+             0,  0, 0,
+        }, {0, 1, 2});
+
+    tiny_cherno::Events().RegisterListener(tiny_cherno::RENDER_EVENT, [&triangle](tiny_cherno::Event &e) {
+                tiny_cherno::GetWindow()->Context()->DrawMesh(triangle);
                 return true;
             });
 
