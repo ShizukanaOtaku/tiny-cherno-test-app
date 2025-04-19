@@ -26,10 +26,8 @@ class TestSystem : public tiny_cherno::System<TestComponent> {
 };
 
 int main() {
-    tiny_cherno::WindowParameters params =
-        tiny_cherno::WindowParameters{"Test TinyCherno App", 800, 600, false};
+    tiny_cherno::InitializationError error = tiny_cherno::Init({ "Test TinyCherno App", 800, 600, false });
 
-    tiny_cherno::InitializationError error = tiny_cherno::Init(params);
     if (error != tiny_cherno::InitializationError::NONE) {
         std::cerr << "Initializing the TinyCherno runtime failed with code " << error << '\n';
         exit(EXIT_FAILURE);
