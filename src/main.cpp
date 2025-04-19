@@ -6,13 +6,13 @@
 #include "entity/entity.hpp"
 #include "scene/scene.hpp"
 #include "util/uuid.hpp"
-#include <GL/gl.h>
 #include <cstdio>
 #include <cstdlib>
 #include <event/key_event.hpp>
 #include <iostream>
 #include <memory>
 #include <tiny_cherno.hpp>
+#include <unistd.h>
 
 struct TestComponent {
     int x;
@@ -53,7 +53,7 @@ int main() {
     tiny_cherno::Events().RegisterListener(
             tiny_cherno::EventType::RENDER_EVENT, [](tiny_cherno::Event &e) {
                 tiny_cherno::RenderEvent renderEvent = static_cast<tiny_cherno::RenderEvent &>(e);
-                std::cout << renderEvent.deltaTime << '\n';
+                std::cout << "delta time: " << renderEvent.deltaTime << '\n';
                 return true;
             });
 
