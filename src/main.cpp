@@ -33,10 +33,10 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    tiny_cherno::Scene *scene = tiny_cherno::CurrentScene();
+    tiny_cherno::Scene &scene = tiny_cherno::CurrentScene();
     auto entity = std::make_shared<tiny_cherno::Entity>();
-    scene->SpawnEntity(entity);
-    scene->componentRegistry.AttachComponent<TestComponent>(entity->Uuid);
+    scene.SpawnEntity(entity);
+    scene.componentRegistry.AttachComponent<TestComponent>(entity->Uuid);
     tiny_cherno::Systems().RegisterSystem<TestComponent>(std::make_shared<TestSystem>());
 
     tiny_cherno::Events().RegisterListener(
@@ -55,14 +55,14 @@ int main() {
                 return true;
             });
 
-    tiny_cherno::Mesh triangle = tiny_cherno::GetWindow()->Context()->CreateMesh({
+    tiny_cherno::Mesh triangle = tiny_cherno::GetWindow().Context()->CreateMesh({
             -1, -1, 0,
              0, -1, 0,
              0,  0, 0,
         }, {0, 1, 2});
 
     tiny_cherno::Events().RegisterListener(tiny_cherno::RENDER_EVENT, [&triangle](tiny_cherno::Event &e) {
-                tiny_cherno::GetWindow()->Context()->DrawMesh(triangle);
+                tiny_cherno::GetWindow().Context()->DrawMesh(triangle);
                 return true;
             });
 
