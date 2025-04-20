@@ -55,14 +55,14 @@ int main() {
                 return true;
             });
 
-    tiny_cherno::Mesh triangle = tiny_cherno::GetWindow().Context()->CreateMesh({
+    tiny_cherno::Mesh triangle = tiny_cherno::GetRenderer().Context()->CreateMesh({
             -1, -1, 0,
              0, -1, 0,
              0,  0, 0,
         }, {0, 1, 2});
 
     tiny_cherno::Events().RegisterListener(tiny_cherno::RENDER_EVENT, [&triangle](tiny_cherno::Event &e) {
-                tiny_cherno::GetWindow().Context()->DrawMesh(triangle);
+                tiny_cherno::GetRenderer().Context()->DrawMesh(triangle);
                 return true;
             });
 
