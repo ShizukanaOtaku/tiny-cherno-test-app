@@ -1,3 +1,6 @@
 [submodule "lib/tiny-cherno-lib"]
 	path = lib/tiny-cherno-lib
 	url = https://github.com/ShizukanaOtaku/tiny-cherno-lib
+[submodule "lib/cherrypink-lib"]
+	path = lib/cherrypink-lib
+	url = https://github.com/ShizukanaYaseotoko/cherrypink-lib

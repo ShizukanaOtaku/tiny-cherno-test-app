@@ -4,17 +4,17 @@ workspace "TestApp"
     architecture "x64"
     cppdialect "C++20"
 
-    include "lib/tiny-cherno-lib/Include.lua"
+    include "lib/cherrypink-lib/Include.lua"
 
 project "TestApp"
     kind "WindowedApp"
     language "C++"
     targetdir "build/bin/%{cfg.buildcfg}"
 
-    links { "TinyChernoLib", "glfw3" }
+    links { "CherryPink", "glfw3" }
 
     files { "src/**" }
-    includedirs { "lib/tiny-cherno-lib/src" }
+    includedirs { "lib/cherrypink-lib/src" }
 
     filter "configurations:Debug"
         defines { "DEBUG" }

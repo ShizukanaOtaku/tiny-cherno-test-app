@@ -1,3 +1,4 @@
+#include "cherry_pink.hpp"
 #include "component/component.hpp"
 #include "event/event.hpp"
 #include "rendering/mesh.hpp"
@@ -9,7 +10,6 @@
 #include <event/key_event.hpp>
 #include <iostream>
 #include <memory>
-#include <tiny_cherno.hpp>
 #include <unistd.h>
 
 struct TestComponent {
@@ -17,53 +17,53 @@ struct TestComponent {
     bool funny;
 };
 
-class TestSystem : public tiny_cherno::System<TestComponent> {
-    void ProcessComponent(const tiny_cherno::UUID &entityUuid, TestComponent &component) override {
+class TestSystem : public cherrypink::System<TestComponent> {
+    void ProcessComponent(const cherrypink::UUID &entityUuid, TestComponent &component) override {
         std::cout << "Component value: " << component.x++ << '\n';
     }
 };
 
 int main() {
-    tiny_cherno::InitializationError error = tiny_cherno::Init({ "Test TinyCherno App", 800, 600, false });
+    cherrypink::InitializationError error = cherrypink::Init({ "Test CherryPink App", 800, 600, false });
 
-    if (error != tiny_cherno::InitializationError::NONE) {
-        std::cerr << "Initializing the TinyCherno runtime failed with code " << error << '\n';
+    if (error != cherrypink::InitializationError::NONE) {
+        std::cerr << "Initializing the runtime failed with code " << error << '\n';
         exit(EXIT_FAILURE);
     }
 
-    tiny_cherno::Scene &scene = tiny_cherno::CurrentScene();
-    auto entity = std::make_shared<tiny_cherno::Entity>();
+    cherrypink::Scene &scene = cherrypink::CurrentScene();
+    auto entity = std::make_shared<cherrypink::Entity>();
     scene.SpawnEntity(entity);
     scene.componentRegistry.AttachComponent<TestComponent>(entity->Uuid);
-    tiny_cherno::Systems().RegisterSystem<TestComponent>(std::make_shared<TestSystem>());
+    cherrypink::Systems().RegisterSystem<TestComponent>(std::make_shared<TestSystem>());
 
-    tiny_cherno::Events().RegisterListener(
-            tiny_cherno::EventType::KEY_EVENT, [](tiny_cherno::Event &e) {
-                tiny_cherno::KeyEvent keyEvent =
-                    static_cast<tiny_cherno::KeyEvent &>(e);
+    cherrypink::Events().RegisterListener(
+            cherrypink::EventType::KEY_EVENT, [](cherrypink::Event &e) {
+                cherrypink::KeyEvent keyEvent =
+                    static_cast<cherrypink::KeyEvent &>(e);
 
                 std::cout << "Key " << keyEvent.key << " action: " << keyEvent.action << '\n';
                 return true;
             });
 
-    tiny_cherno::CurrentScene().camera.position.z = 1;
+    cherrypink::CurrentScene().camera.position.z = 1;
 
-    tiny_cherno::Events().RegisterListener(
-            tiny_cherno::EventType::RENDER_EVENT, [](tiny_cherno::Event &e) {
-                tiny_cherno::CurrentScene().camera.position.z += 0.01;
+    cherrypink::Events().RegisterListener(
+            cherrypink::EventType::RENDER_EVENT, [](cherrypink::Event &e) {
+                cherrypink::CurrentScene().camera.position.z += 0.01;
                 return true;
             });
 
-    tiny_cherno::Mesh triangle = tiny_cherno::GetRenderer().Context()->CreateMesh({
+    cherrypink::Mesh triangle = cherrypink::GetRenderer().Context()->CreateMesh({
             -1, -1, 0,
              0, -1, 0,
              0,  0, 0,
         }, {0, 1, 2});
 
-    tiny_cherno::Events().RegisterListener(tiny_cherno::RENDER_EVENT, [&triangle](tiny_cherno::Event &e) {
-                tiny_cherno::GetRenderer().Context()->DrawMesh(triangle);
+    cherrypink::Events().RegisterListener(cherrypink::RENDER_EVENT, [&triangle](cherrypink::Event &e) {
+                cherrypink::GetRenderer().Context()->DrawMesh(triangle);
                 return true;
             });
 
-    tiny_cherno::Run();
+    cherrypink::Run();
 }
