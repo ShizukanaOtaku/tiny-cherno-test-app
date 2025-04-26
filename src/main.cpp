@@ -32,9 +32,8 @@ int main() {
     }
 
     cherrypink::Scene &scene = cherrypink::CurrentScene();
-    auto entity = std::make_shared<cherrypink::Entity>();
-    scene.SpawnEntity(entity);
-    scene.componentRegistry.AttachComponent<TestComponent>(entity->Uuid);
+    auto entity = cherrypink::CurrentScene().SpawnEntity();
+    scene.componentRegistry.AttachComponent<TestComponent>(entity.Uuid);
     cherrypink::Systems().RegisterSystem<TestComponent>(std::make_shared<TestSystem>());
 
     cherrypink::Events().RegisterListener(
