@@ -1,8 +1,6 @@
 #include "component/component.hpp"
 #include "event/event.hpp"
-#include "event/render_event.hpp"
 #include "rendering/mesh.hpp"
-#include "rendering/window.hpp"
 #include "entity/entity.hpp"
 #include "scene/scene.hpp"
 #include "util/uuid.hpp"
@@ -48,10 +46,11 @@ int main() {
                 return true;
             });
 
+    tiny_cherno::CurrentScene().camera.position.z = 1;
+
     tiny_cherno::Events().RegisterListener(
             tiny_cherno::EventType::RENDER_EVENT, [](tiny_cherno::Event &e) {
-                tiny_cherno::RenderEvent renderEvent = static_cast<tiny_cherno::RenderEvent &>(e);
-                std::cout << "delta time: " << renderEvent.deltaTime << '\n';
+                tiny_cherno::CurrentScene().camera.position.z += 0.01;
                 return true;
             });
 
