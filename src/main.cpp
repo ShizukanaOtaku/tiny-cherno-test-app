@@ -1,5 +1,7 @@
 #include "cherry_pink.hpp"
 #include "component/component.hpp"
+#include "component/mesh_system.hpp"
+#include "component/transform_component.hpp"
 #include "event/event.hpp"
 #include "rendering/mesh.hpp"
 #include "entity/entity.hpp"
@@ -12,14 +14,9 @@
 #include <memory>
 #include <unistd.h>
 
-struct TestComponent {
-    int x;
-    bool funny;
-};
-
-class TestSystem : public cherrypink::System<TestComponent> {
-    void ProcessComponent(const cherrypink::UUID &entityUuid, TestComponent &component) override {
-        std::cout << "Component value: " << component.x++ << '\n';
+class RotateSystem : public cherrypink::System<cherrypink::TransformComponent> {
+    void ProcessComponent(const cherrypink::UUID &entityUuid, cherrypink::TransformComponent &transform) override {
+        transform.rotation.y += 5.0f;
     }
 };
 
@@ -33,8 +30,8 @@ int main() {
 
     cherrypink::Scene &scene = cherrypink::CurrentScene();
     auto entity = cherrypink::CurrentScene().SpawnEntity();
-    scene.componentRegistry.AttachComponent<TestComponent>(entity.Uuid);
-    cherrypink::Systems().RegisterSystem<TestComponent>(std::make_shared<TestSystem>());
+
+    cherrypink::Systems().RegisterSystem<cherrypink::TransformComponent>(std::make_shared<RotateSystem>());
 
     cherrypink::Events().RegisterListener(
             cherrypink::EventType::KEY_EVENT, [](cherrypink::Event &e) {
@@ -49,7 +46,7 @@ int main() {
 
     cherrypink::Events().RegisterListener(
             cherrypink::EventType::RENDER_EVENT, [](cherrypink::Event &e) {
-                cherrypink::CurrentScene().camera.position.z += 0.01;
+                cherrypink::CurrentScene().camera.position.z = 1;
                 return true;
             });
 
@@ -59,10 +56,8 @@ int main() {
              0,  0, 0,
         }, {0, 1, 2});
 
-    cherrypink::Events().RegisterListener(cherrypink::RENDER_EVENT, [&triangle](cherrypink::Event &e) {
-                cherrypink::GetRenderer().Context()->DrawMesh(triangle);
-                return true;
-            });
+    cherrypink::CurrentScene().componentRegistry.AttachComponent<cherrypink::TransformComponent>(entity.Uuid);
+    cherrypink::CurrentScene().componentRegistry.AttachComponent<cherrypink::MeshComponent>(entity.Uuid, cherrypink::MeshComponent { triangle });
 
     cherrypink::Run();
 }
