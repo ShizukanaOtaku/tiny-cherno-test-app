@@ -7,6 +7,7 @@
 #include "entity/entity.hpp"
 #include "scene/scene.hpp"
 #include "util/uuid.hpp"
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <event/key_event.hpp>
@@ -17,11 +18,12 @@
 class RotateSystem : public cherrypink::System<cherrypink::TransformComponent> {
     void ProcessComponent(const cherrypink::UUID &entityUuid, cherrypink::TransformComponent &transform) override {
         transform.rotation.y += 5.0f;
+        transform.rotation.z += 2.0f;
     }
 };
 
 int main() {
-    cherrypink::InitializationError error = cherrypink::Init({ "Test CherryPink App", 800, 600, false });
+    cherrypink::InitializationError error = cherrypink::Init({ "Test CherryPink App", 800, 600, true });
 
     if (error != cherrypink::InitializationError::NONE) {
         std::cerr << "Initializing the runtime failed with code " << error << '\n';
