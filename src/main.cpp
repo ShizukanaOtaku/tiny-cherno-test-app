@@ -1,19 +1,9 @@
 #include "cherry_pink.hpp"
-#include "component/component.hpp"
 #include "component/mesh_system.hpp"
-#include "component/transform_component.hpp"
 #include "event/event.hpp"
 #include "rendering/mesh.hpp"
-#include "entity/entity.hpp"
-#include "scene/scene.hpp"
-#include "util/uuid.hpp"
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
 #include <event/key_event.hpp>
 #include <iostream>
-#include <memory>
-#include <unistd.h>
 
 class RotateSystem : public cherrypink::System<cherrypink::TransformComponent> {
     void ProcessComponent(const cherrypink::UUID &entityUuid, cherrypink::TransformComponent &transform) override {
