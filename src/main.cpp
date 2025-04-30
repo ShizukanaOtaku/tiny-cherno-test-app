@@ -1,9 +1,9 @@
 #include "cherry_pink.hpp"
 #include "component/mesh_system.hpp"
-#include "event/event.hpp"
 #include "rendering/mesh.hpp"
 #include <event/key_event.hpp>
 #include <iostream>
+#include <memory>
 
 class RotateSystem : public cherrypink::System<cherrypink::TransformComponent> {
     void ProcessComponent(const cherrypink::UUID &entityUuid, cherrypink::TransformComponent &transform) override {
@@ -21,26 +21,17 @@ int main() {
     }
 
     cherrypink::Scene &scene = cherrypink::CurrentScene();
+    scene.camera.position.z = 1;
+
     auto entity = cherrypink::CurrentScene().SpawnEntity();
 
     cherrypink::Systems().RegisterSystem<cherrypink::TransformComponent>(std::make_shared<RotateSystem>());
 
-    cherrypink::Events().RegisterListener(
-            cherrypink::EventType::KEY_EVENT, [](cherrypink::Event &e) {
-                cherrypink::KeyEvent keyEvent =
-                    static_cast<cherrypink::KeyEvent &>(e);
-
+    cherrypink::Events().RegisterListener<cherrypink::KeyEvent>([](const cherrypink::KeyEvent &keyEvent) {
                 std::cout << "Key " << keyEvent.key << " action: " << keyEvent.action << '\n';
-                return true;
             });
 
     cherrypink::CurrentScene().camera.position.z = 1;
-
-    cherrypink::Events().RegisterListener(
-            cherrypink::EventType::RENDER_EVENT, [](cherrypink::Event &e) {
-                cherrypink::CurrentScene().camera.position.z = 1;
-                return true;
-            });
 
     cherrypink::Mesh triangle = cherrypink::GetRenderer().Context()->CreateMesh({
             -1, -1, 0,
