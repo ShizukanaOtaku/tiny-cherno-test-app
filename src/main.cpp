@@ -21,7 +21,6 @@ int main() {
     }
 
     cherrypink::Scene &scene = cherrypink::CurrentScene();
-    scene.camera.position.z = 1;
 
     auto entity = cherrypink::CurrentScene().SpawnEntity();
 
@@ -31,7 +30,7 @@ int main() {
                 std::cout << "Key " << keyEvent.key << " action: " << keyEvent.action << '\n';
             });
 
-    cherrypink::CurrentScene().camera.position.z = 1;
+    cherrypink::CurrentScene().camera.position.z = 2;
 
     cherrypink::Mesh triangle = cherrypink::GetRenderer().Context()->CreateMesh({
             -1, -1, 0,
