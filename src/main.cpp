@@ -30,14 +30,15 @@ int main() {
 
     cherrypink::CurrentScene().camera.position.z = 3;
 
-    cherrypink::Mesh triangle = cherrypink::GetRenderer().Context()->CreateMesh({
-            -1, -1, 0,
-             0, -1, 0,
-             0,  0, 0,
-        }, {0, 1, 2});
+    cherrypink::Mesh quad = cherrypink::GetRenderer().Context()->CreateMesh({
+            -0.5, -0.5, 0,
+            -0.5,  0.5, 0,
+             0.5,  0.5, 0,
+             0.5, -0.5, 0,
+        }, {0, 1, 2, 3, 0, 2});
 
     cherrypink::CurrentScene().componentRegistry.AttachComponent<cherrypink::TransformComponent>(entity.Uuid);
-    cherrypink::CurrentScene().componentRegistry.AttachComponent<cherrypink::MeshComponent>(entity.Uuid, cherrypink::MeshComponent { triangle });
+    cherrypink::CurrentScene().componentRegistry.AttachComponent<cherrypink::MeshComponent>(entity.Uuid, cherrypink::MeshComponent { quad });
 
     cherrypink::Run();
 }
