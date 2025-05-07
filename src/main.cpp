@@ -20,8 +20,6 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    cherrypink::Scene &scene = cherrypink::CurrentScene();
-
     auto entity = cherrypink::CurrentScene().SpawnEntity();
 
     cherrypink::Systems().RegisterSystem<cherrypink::TransformComponent>(std::make_shared<RotateSystem>());
@@ -30,7 +28,7 @@ int main() {
                 std::cout << "Key " << keyEvent.key << " action: " << keyEvent.action << '\n';
             });
 
-    cherrypink::CurrentScene().camera.position.z = 2;
+    cherrypink::CurrentScene().camera.position.z = 3;
 
     cherrypink::Mesh triangle = cherrypink::GetRenderer().Context()->CreateMesh({
             -1, -1, 0,
