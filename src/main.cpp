@@ -5,20 +5,24 @@
 #include <memory>
 #include <rendering/mesh.hpp>
 
+#include "component/system.hpp"
 #include "component/transform_component.hpp"
 #include "rendering/material.hpp"
 
-class RotateSystem : public cherrypink::System<cherrypink::Transform> {
+class RotateSystem : public cherrypink::UpdateSystem<cherrypink::Transform> {
     void ProcessComponent(const cherrypink::UUID &entityUuid,
-                          cherrypink::Transform &transform) override {
+                          cherrypink::Transform &transform,
+                          double deltaTime) override {
         transform.rotation.y += 5.0f;
         transform.rotation.z += 2.0f;
     }
 };
 
-class RainbowSystem : public cherrypink::System<cherrypink::ShaderMaterial> {
+class RainbowSystem
+    : public cherrypink::RenderSystem<cherrypink::ShaderMaterial> {
     void ProcessComponent(const cherrypink::UUID &entityUuid,
-                          cherrypink::ShaderMaterial &material) override {
+                          cherrypink::ShaderMaterial &material,
+                          double partialTicks) override {
         material.color.SetRed((std::sin(cherrypink::Frames() / 20.0f) + 1.0) /
                               2.0f);
         material.color.SetBlue((std::sin(cherrypink::Frames() / 15.0f) + 1.0) /
