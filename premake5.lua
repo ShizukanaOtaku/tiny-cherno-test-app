@@ -11,7 +11,7 @@ project "TestApp"
     language "C++"
     targetdir "build/bin/%{cfg.buildcfg}"
 
-    links { "CherryPink", "glfw3" }
+    links { "CherryPink", "glfw3", "assimp" }
 
     files { "src/**" }
     includedirs { "lib/cherrypink-lib/src" }
