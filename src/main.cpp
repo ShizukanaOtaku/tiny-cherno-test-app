@@ -8,6 +8,7 @@
 #include "assets/resource_manager.hpp"
 #include "component/system.hpp"
 #include "component/transform_component.hpp"
+#include "glm/ext/vector_float3.hpp"
 #include "rendering/material.hpp"
 
 class RotateSystem : public cherrypink::UpdateSystem<cherrypink::Transform> {
@@ -16,6 +17,15 @@ class RotateSystem : public cherrypink::UpdateSystem<cherrypink::Transform> {
             double deltaTime) override {
         transform.rotation.y += 5.0f;
         transform.rotation.z += 2.0f;
+    }
+};
+
+class ScaleSystem : public cherrypink::UpdateSystem<cherrypink::Transform> {
+    void ProcessComponent(const cherrypink::UUID &entityUuid,
+            cherrypink::Transform &transform,
+            double deltaTime) override {
+        float scale = std::sin(cherrypink::Frames() / 50.0);
+        transform.scale = glm::vec3(scale);
     }
 };
 
@@ -46,6 +56,8 @@ int main() {
 
     cherrypink::Systems().RegisterUpdateSystem<cherrypink::Transform>(
             std::make_shared<RotateSystem>());
+    cherrypink::Systems().RegisterUpdateSystem<cherrypink::Transform>(
+            std::make_shared<ScaleSystem>());
     cherrypink::Systems().RegisterRenderSystem<cherrypink::ShaderMaterial>(
             std::make_shared<RainbowSystem>());
 
