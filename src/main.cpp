@@ -57,32 +57,17 @@ int main() {
 
     cherrypink::CurrentScene().camera.position.z = 3;
 
-    cherrypink::Mesh quad = cherrypink::GetRenderer().Context()->CreateMesh(
-            {
-            -0.5,
-            -0.5,
-            0,
-            -0.5,
-            0.5,
-            0,
-            0.5,
-            0.5,
-            0,
-            0.5,
-            -0.5,
-            0,
-            },
-            {0, 1, 2, 3, 0, 2});
+    cherrypink::Mesh *mesh =
+        *cherrypink::GetResourceManager().LoadFromFile("teapot.obj");
 
     cherrypink::CurrentScene()
         .componentRegistry.AttachComponent<cherrypink::Transform>(entity.Uuid);
     cherrypink::CurrentScene()
-        .componentRegistry.AttachComponent<cherrypink::Mesh>(entity.Uuid, quad);
+        .componentRegistry.AttachComponent<cherrypink::Mesh>(entity.Uuid, *mesh);
     cherrypink::CurrentScene()
         .componentRegistry.AttachComponent<cherrypink::ShaderMaterial>(
                 entity.Uuid,
                 cherrypink::ShaderMaterial{cherrypink::RGBAColor(1, 0, 1)});
 
-    cherrypink::GetResourceManager().LoadFromFile("teapot.obj");
     cherrypink::Run();
 }
