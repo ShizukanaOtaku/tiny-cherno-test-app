@@ -67,7 +67,7 @@ int main() {
             << '\n';
             });
 
-    cherrypink::CurrentScene().camera.position.z = 3;
+    cherrypink::CurrentScene().camera.position.z = 8;
 
     cherrypink::Mesh *mesh =
         *cherrypink::GetResourceManager().LoadFromFile("teapot.obj");
