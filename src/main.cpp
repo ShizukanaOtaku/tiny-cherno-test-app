@@ -10,6 +10,7 @@
 #include "component/transform_component.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include "rendering/material.hpp"
+#include "rendering/texture.hpp"
 
 class RotateSystem : public cherrypink::UpdateSystem<cherrypink::Transform> {
     void ProcessComponent(const cherrypink::UUID &entityUuid,
@@ -70,7 +71,9 @@ int main() {
     cherrypink::CurrentScene().camera.position.z = 8;
 
     cherrypink::Mesh *mesh =
-        *cherrypink::GetResourceManager().LoadFromFile("teapot.obj");
+        *cherrypink::GetResourceManager().LoadMesh("teapot.obj");
+    cherrypink::Texture *texture =
+        *cherrypink::GetResourceManager().LoadTexture("texture.png");
 
     cherrypink::CurrentScene()
         .componentRegistry.AttachComponent<cherrypink::Transform>(entity.Uuid);
